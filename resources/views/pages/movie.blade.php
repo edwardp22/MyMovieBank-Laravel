@@ -61,7 +61,7 @@
 
                     <span>- {{ $comment['date'] }}</span>
                     <br>
-                    <p>{{ comment['content'] }}</p>
+                    <p>{{ $comment['content'] }}</p>
                 </div>
                 @endforeach
             </div>

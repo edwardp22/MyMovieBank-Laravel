@@ -9,6 +9,9 @@ use App\Models\Wish;
 use App\Models\Comment;
 
 class Movies extends Controller {
+    // private static string $apiKey = 'k_3ia6todj';
+    private static string $apiKey = 'k_145rs2xn';
+
     // Show Showing now page
     public function showingNow() {
         $viewData = $this->getViewData('index', 'InTheaters');
@@ -59,9 +62,10 @@ class Movies extends Controller {
 
             try {
                 for ($i=0; $i < sizeof($favorites); $i++) { 
-                    $movie = Http::get('https://imdb-api.com/en/API/Title/k_3ia6todj/'.$favorites['imDbId'])->json();
+                    $movie = Http::get('https://imdb-api.com/en/API/Title/'.self::$apiKey.'/'.$favorites[$i]['imDbId'])->json();
+                    $movie['isFavorite'] = true; 
 
-                    if (isset($movie['errorMessage'])) {
+                    if (isset($movie['errorMessage']) && $movie['errorMessage'] != '') {
                         $viewData['error'] = $movie['errorMessage'];
                         break;
                     }
@@ -99,9 +103,10 @@ class Movies extends Controller {
 
             try {
                 for ($i=0; $i < sizeof($wishes); $i++) { 
-                    $movie = Http::get('https://imdb-api.com/en/API/Title/k_3ia6todj/'.$wishes['imDbId'])->json();
+                    $movie = Http::get('https://imdb-api.com/en/API/Title/'.self::$apiKey.'/'.$wishes[$i]['imDbId'])->json();
+                    $movie['isFavorite'] = true; 
 
-                    if (isset($movie['errorMessage'])) {
+                    if (isset($movie['errorMessage']) && $movie['errorMessage'] != '') {
                         $viewData['error'] = $movie['errorMessage'];
                         break;
                     }
@@ -119,12 +124,12 @@ class Movies extends Controller {
 
     // Show About page
     public function about() {
-        return back();
+        return view("pages.about");
     }
 
     // Show Contact page
     public function contact() {
-        return back();
+        return view("pages.contact");
     }
 
     // Changes the state of favorite for the movie
@@ -199,9 +204,9 @@ class Movies extends Controller {
         $viewData['comments'] = array();
 
         try {
-            $viewData = Http::get('https://imdb-api.com/en/API/Title/k_3ia6todj/'.$id)->json();
+            $viewData = Http::get('https://imdb-api.com/en/API/Title/'.self::$apiKey.'/'.$id)->json();
 
-            if (isset($viewData['errorMessage'])) {
+            if (isset($viewData['errorMessage']) && $viewData['errorMessage'] != '') {
                 $viewData['error'] = $viewData['errorMessage'];
             }
             else {            
@@ -210,7 +215,7 @@ class Movies extends Controller {
                 if (isset($user)) {
                     $userId = $user->id;
                 
-                    $response = Http::get('https://imdb-api.com/en/API/Reviews/k_3ia6todj/'.$id)->json();
+                    $response = Http::get('https://imdb-api.com/en/API/Reviews/'.self::$apiKey.'/'.$id)->json();
                     $comments = $response["items"];
                     $DbComments = Comment::where(
                         [
@@ -225,6 +230,7 @@ class Movies extends Controller {
                     }
 
                     for ($i=0; $i < sizeof($comments); $i++) {
+                        $comments[$i]['isInternal'] = false;
                         $viewData['comments'][] = $comments[$i]; 
                     }
                 }
@@ -244,9 +250,9 @@ class Movies extends Controller {
         $viewData['activeLink'] = $activeLink;
 
         try {
-            $response = Http::get('https://imdb-api.com/en/API/'.$endPoint.'/k_3ia6todj')->json();
+            $response = Http::get('https://imdb-api.com/en/API/'.$endPoint.'/'.self::$apiKey)->json();
 
-            if (isset($response['errorMessage'])) {
+            if (isset($response['errorMessage']) && $response['errorMessage'] != '') {
                 $viewData['error'] = $response['errorMessage'];
             }
             else {            
@@ -257,19 +263,29 @@ class Movies extends Controller {
                     $viewData['list'] = $response['items'];
                 }
 
-                $favorites = Favorite::get()->toArray();
+                $user = auth()->user();
 
-                for ($i=0; $i < sizeof($viewData['list']); $i++) { 
-                    $setFavorite = false;
+                if (isset($user)) {
+                    $userId = $user->id;
 
-                    foreach ($favorites as $favorite) {
-                        if ($favorite['imDbId'] == $viewData['list'][$i]['id']) {
-                            $setFavorite = true;
-                            break;
+                    $favorites = Favorite::where(
+                        [
+                            ['userId', '=', $userId]
+                        ]
+                    )->get()->toArray();
+
+                    for ($i=0; $i < sizeof($viewData['list']); $i++) { 
+                        $setFavorite = false;
+
+                        foreach ($favorites as $favorite) {
+                            if ($favorite['imDbId'] == $viewData['list'][$i]['id']) {
+                                $setFavorite = true;
+                                break;
+                            }
                         }
-                    }
 
-                    $viewData['list'][$i]['isFavorite'] = $setFavorite; 
+                        $viewData['list'][$i]['isFavorite'] = $setFavorite; 
+                    }
                 }
             }
         } catch(ConnectionException $e)
