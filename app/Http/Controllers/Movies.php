@@ -216,7 +216,7 @@ class Movies extends Controller {
                     $userId = $user->id;
                 
                     $response = Http::get('https://imdb-api.com/en/API/Reviews/'.self::$apiKey.'/'.$id)->json();
-                    $comments = $response["items"];
+                    $comments = array_slice($response["items"], 0, 9);
                     $DbComments = Comment::where(
                         [
                             ['imDbId', '=', $id],
