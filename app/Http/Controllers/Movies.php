@@ -77,6 +77,9 @@ class Movies extends Controller {
                 $viewData['error'] = 'You are not connected to Internet';
             }
         }
+        else {
+            $viewData['error'] = 'You need to log in to see favorites';
+        }
 
         return view("pages.moviesList")->with('movies', $viewData);
     }
@@ -117,6 +120,9 @@ class Movies extends Controller {
             {
                 $viewData['error'] = 'You are not connected to Internet';
             }
+        }
+        else {
+            $viewData['error'] = 'You need to log in to see your wish list';
         }
 
         return view("pages.moviesList")->with('movies', $viewData);
