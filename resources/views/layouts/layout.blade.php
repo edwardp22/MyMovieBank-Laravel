@@ -55,10 +55,35 @@
         <a href="/coming" <?php if ($activeLink == "coming") echo 'class="active"'; ?>>Coming Soon</a>
         <a href="/top" <?php if ($activeLink == "top") echo 'class="active"'; ?>>Top 10</a>
         <a href="/popular" <?php if ($activeLink == "popular") echo 'class="active"'; ?>>Most Popular</a>
+        
+        @auth
         <a href="/favorites" <?php if ($activeLink == "favorites") echo 'class="active"'; ?>>Favorites</a>
+        @endauth
+
         <a href="/about" <?php if ($activeLink == "about") echo 'class="active"'; ?>>About Us</a>
         <a href="/contact" <?php if ($activeLink == "contact") echo 'class="active"'; ?>>Contact Us</a>
-        <a href="/register" class="registrationButton">Register Now</a>
+
+        @guest
+        <a href="{{ route('login') }}" class="active">Log In</a>
+        <a href="{{ route('register') }}" class="registrationButton">Register Now</a>
+        @else
+        <a id="navbarDropdown" class="dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+            {{ Auth::user()->name }}
+        </a>
+
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                              document.getElementById('logout-form').submit();">
+                {{ __('Logout') }}
+            </a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        </div>
+        @endguest
+        
         <a href="javascript:void(0);" class="icon" onclick="changeNav()">
           <i class="fa fa-bars"></i>
         </a>

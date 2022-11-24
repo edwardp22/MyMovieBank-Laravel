@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,5 @@ Route::get('/top', 'App\Http\Controllers\Movies@top')->name('movies.top');
 Route::get('/popular', 'App\Http\Controllers\Movies@popular')->name('movies.popular');
 Route::get('/favorite/{id}/toggle', 'App\Http\Controllers\Movies@toggleFavorite')->name('favorite.toggle');
 Route::get('/movie/{id}/show', 'App\Http\Controllers\Movies@showMovie')->name('movie.show');
+
+Auth::routes();

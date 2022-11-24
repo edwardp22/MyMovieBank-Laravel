@@ -44,9 +44,10 @@
         <?php } ?>
     </div>
 
+    @auth
+    @if (isset($movie['comments']))
     <div class="col-12">
         <h1>Comments</h1>
-        <?php echo print_r($movie['comments']); ?>
         @foreach ($movie['comments'] as $comment)            
         <div class="comment mt-4 text-justify float-left">
             <h4>{{ $comment['username'] }}</h4>
@@ -61,5 +62,7 @@
         </div>
         @endforeach
     </div>
+    @endif
+    @endauth
 </div>
 @endsection

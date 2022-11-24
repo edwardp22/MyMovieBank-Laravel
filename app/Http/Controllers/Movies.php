@@ -6,8 +6,6 @@ use App\Models\Favorite;
 use App\Models\Comment;
 
 class Movies extends Controller {
-    private static int $userId = 1;
-
     // Show Showing now page
     public function showingNow() {
         $viewData = $this->getViewData('index', 'InTheaters');
@@ -38,27 +36,33 @@ class Movies extends Controller {
 
     // Changes the state of favorite for the movie
     public function toggleFavorite($id) {
-        $favorite = Favorite::where(
-            [
-                ['imDbId', '=', $id],
-                ['UserId', '=', self::$userId]
-            ]
-        )->get()->toArray();
+        $user = auth()->user();
 
-        if (sizeof($favorite) > 0) {
-            Favorite::where(
+        if (isset($user)) {
+            $userId = $user->id;
+
+            $favorite = Favorite::where(
                 [
                     ['imDbId', '=', $id],
-                    ['UserId', '=', self::$userId]
+                    ['userId', '=', $userId]
                 ]
-            )->delete();
-        }
-        else {
-            $newFavorite = new Favorite();
-            $newFavorite->userId = self::$userId;
-            $newFavorite->imDbId = $id;
-            $newFavorite->save();
-        }
+            )->get()->toArray();
+    
+            if (sizeof($favorite) > 0) {
+                Favorite::where(
+                    [
+                        ['imDbId', '=', $id],
+                        ['userId', '=', $userId]
+                    ]
+                )->delete();
+            }
+            else {
+                $newFavorite = new Favorite();
+                $newFavorite->userId = $userId;
+                $newFavorite->imDbId = $id;
+                $newFavorite->save();
+            }
+        }        
 
         return back();
     }
@@ -66,21 +70,29 @@ class Movies extends Controller {
     // Show information of the desired movie
     public function showMovie($id) {
         $viewData = Http::get('https://imdb-api.com/en/API/Title/k_3ia6todj/'.$id)->json();
-        $response = Http::get('https://imdb-api.com/en/API/Reviews/k_3ia6todj/'.$id)->json();
-        $comments = $response["items"];
-        $DbComments = Comment::where(
-            [
-                ['imDbId', '=', $id]
-            ]
-        )->get()->toArray();
+        
+        $user = auth()->user();
 
-        for ($i=0; $i < sizeof($DbComments); $i++) {
-            $DbComments[$i]['isInternal'] = true; 
-            $viewData['comments'][] = $DbComments[$i];             
-        }
+        if (isset($user)) {
+            $userId = $user->id;
+        
+            $response = Http::get('https://imdb-api.com/en/API/Reviews/k_3ia6todj/'.$id)->json();
+            $comments = $response["items"];
+            $DbComments = Comment::where(
+                [
+                    ['imDbId', '=', $id],
+                    ['userId', '=', $userId]
+                ]
+            )->get()->toArray();
 
-        for ($i=0; $i < sizeof($comments); $i++) {
-            $viewData['comments'][] = $comments[$i]; 
+            for ($i=0; $i < sizeof($DbComments); $i++) {
+                $DbComments[$i]['isInternal'] = true; 
+                $viewData['comments'][] = $DbComments[$i];             
+            }
+
+            for ($i=0; $i < sizeof($comments); $i++) {
+                $viewData['comments'][] = $comments[$i]; 
+            }
         }
 
         return view("pages.movie")->with('movie', $viewData);

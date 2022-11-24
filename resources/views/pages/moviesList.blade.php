@@ -14,7 +14,8 @@
             id="<?php echo 'card'.$movie['id']; ?>" 
             
         >
-            <a 
+            @auth
+            <a
                 class="starLink" 
                 href="{{ route('favorite.toggle', $movie['id']) }}"
             >
@@ -25,7 +26,8 @@
                     ?>" 
                     id="{{ 'star'.$movie['id'] }}"
                 ></i>
-            </a>    
+            </a>
+            @endauth
 
             <img 
                 src="{{ $movie['image'] }}" 
