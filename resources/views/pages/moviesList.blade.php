@@ -12,7 +12,7 @@
     <div class="col-12 col-md-4">
         <div 
             class="<?php 
-                if ($movie["isFavorite"]) echo 'card favorite';
+                if (isset($movie["isFavorite"]) && $movie["isFavorite"]) echo 'card favorite';
                 else echo 'card';
             ?>"
             id="<?php echo 'card'.$movie['id']; ?>" 
@@ -25,7 +25,7 @@
             >
                 <i 
                     class="<?php
-                        if ($movie['isFavorite']) echo 'fa-solid fa-star';
+                        if (isset($movie["isFavorite"]) && $movie['isFavorite']) echo 'fa-solid fa-star';
                         else echo 'fa-regular fa-star';
                     ?>" 
                     id="{{ 'star'.$movie['id'] }}"
@@ -38,7 +38,7 @@
             >
                 <i 
                     class="<?php
-                        if ($movie['isBookmarked']) echo 'fa-solid fa-bookmark';
+                        if (isset($movie["isBookmarked"]) && $movie['isBookmarked']) echo 'fa-solid fa-bookmark';
                         else echo 'fa-regular fa-bookmark';
                     ?>" 
                     id="{{ 'bookmark'.$movie['id'] }}"
@@ -56,7 +56,7 @@
             <div 
                 class="card-body"
                 onclick="<?php 
-                    if ($movie['isFavorite']) $movie['isFavorite'] = true;
+                    if (isset($movie["isFavorite"]) && $movie['isFavorite']) $movie['isFavorite'] = true;
                     else $movie['isFavorite'] = false; 
                     
                     route('movie.show', $movie['id']); 
