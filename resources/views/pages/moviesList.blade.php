@@ -31,6 +31,19 @@
                     id="{{ 'star'.$movie['id'] }}"
                 ></i>
             </a>
+            
+            <a
+                class="starLink" 
+                href="{{ route('wishlist.toggle', $movie['id']) }}"
+            >
+                <i 
+                    class="<?php
+                        if ($movie['isBookmarked']) echo 'fa-solid fa-bookmark';
+                        else echo 'fa-regular fa-bookmark';
+                    ?>" 
+                    id="{{ 'bookmark'.$movie['id'] }}"
+                ></i>
+            </a>
             @endauth
 
             <img 

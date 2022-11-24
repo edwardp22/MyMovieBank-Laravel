@@ -104,7 +104,7 @@ class Movies extends Controller {
             try {
                 for ($i=0; $i < sizeof($wishes); $i++) { 
                     $movie = Http::get('https://imdb-api.com/en/API/Title/'.self::$apiKey.'/'.$wishes[$i]['imDbId'])->json();
-                    $movie['isFavorite'] = true; 
+                    $movie['isBookmarked'] = true; 
 
                     if (isset($movie['errorMessage']) && $movie['errorMessage'] != '') {
                         $viewData['error'] = $movie['errorMessage'];
@@ -274,8 +274,15 @@ class Movies extends Controller {
                         ]
                     )->get()->toArray();
 
+                    $wishes = Wish::where(
+                        [
+                            ['userId', '=', $userId]
+                        ]
+                    )->get()->toArray();
+
                     for ($i=0; $i < sizeof($viewData['list']); $i++) { 
                         $setFavorite = false;
+                        $setBookmarked = false;
 
                         foreach ($favorites as $favorite) {
                             if ($favorite['imDbId'] == $viewData['list'][$i]['id']) {
@@ -284,7 +291,15 @@ class Movies extends Controller {
                             }
                         }
 
+                        foreach ($wishes as $wish) {
+                            if ($wish['imDbId'] == $viewData['list'][$i]['id']) {
+                                $setBookmarked = true;
+                                break;
+                            }
+                        }
+
                         $viewData['list'][$i]['isFavorite'] = $setFavorite; 
+                        $viewData['list'][$i]['isBookmarked'] = $setBookmarked; 
                     }
                 }
             }
