@@ -1,0 +1,179 @@
+/*
+   Global Styles
+   Author: Edward Peña
+   Date:   11-15-2022
+
+   Filename: global.css
+*/
+
+:root {
+    --primary-color: lightseagreen;
+    --secondary-color: lightcoral;
+}
+
+body {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+body > .container {
+    min-height: 100vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+header {
+    text-align: center;
+    padding: 40px;
+}
+
+header img {
+    height: 45px;
+    width: 45px;
+}
+
+/* Navbar Styles */
+nav {
+    overflow: hidden;
+    background-color: #333;
+    /* Bootstrap gutter x value, I use it to resize the width of nav */
+    --bs-gutter-x: 1.5rem;
+    margin-right: calc(-0.5 * var(--bs-gutter-x));
+    margin-left: calc(-0.5 * var(--bs-gutter-x));
+}
+
+nav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+nav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+nav a.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+nav .icon {
+    display: none;
+}
+
+.registrationButton {
+    background-color: darkgoldenrod;
+}
+
+.registrationButton:hover {
+    background-color: gold;
+}
+
+@media screen and (max-width: 600px) {
+    nav a:not(:first-child) {
+        display: none;
+    }
+    nav a.icon {
+        float: right;
+        display: block;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    nav.navBarResponsive {
+        position: relative;
+    }
+    nav.navBarResponsive .icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    nav.navBarResponsive a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+}
+
+/* Content Styles */
+#cardContent {
+    flex: auto;
+}
+
+#cardContent > h1,
+#cardContent > h2,
+#cardContent > h3,
+#cardContent > h4,
+#cardContent > h5,
+#cardContent > h6 {
+    text-align: center;
+    margin-top: 20px;
+}
+#cardContent > h1,
+#cardContent > h2 {
+    text-decoration: underline;
+}
+
+.aboutSection img {
+    width: 100%;
+}
+
+.starLink {
+    text-decoration: none;
+    color: white;
+}
+
+/* Footer Styles */
+footer {
+    background: #111;
+    height: auto;
+    padding-top: 40px;
+    color: #fff;
+    text-align: center;
+}
+
+footer .footer-bottom {
+    background: #000;
+    padding: 20px;
+    padding-bottom: 40px;
+}
+
+footer .footer-bottom a {
+    color: deepskyblue;
+    text-decoration: none;
+}
+
+footer ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer ul li {
+    margin: 0 10px;
+}
+
+footer ul a {
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+footer ul a i {
+    font-size: 1em;
+    width: 20px;
+    height: 20px;
+}
+
+footer ul a:hover i {
+    color: var(--primary-color);
+}

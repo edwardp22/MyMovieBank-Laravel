@@ -1,0 +1,39 @@
+/*
+   Styles for card displaying movies
+   Author: Edward Peña
+   Date:   11-15-2022
+
+   Filename: card.css
+*/
+
+#cardContent {
+    padding: 20px;
+}
+
+.card {
+    height: 100%;
+    background-color: black;
+    color: white;
+    border-radius: 15px;
+    padding: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card.favorite {
+    background-color: darkgoldenrod;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6);
+    transform: scale(1.1);
+}
+
+.card img {
+    border-radius: 15px;
+}
+
+.fa-star {
+    width: 20px;
+    height: 20px;
+}

@@ -1,0 +1,33 @@
+/*
+   Styles for modal displaying information of movies
+   Author: Edward Peña
+   Date:   11-15-2022
+
+   Filename: modal.css
+*/
+
+.modal-content {
+    min-height: 95vh;
+    max-height: 95vh;
+    overflow-y: auto;
+}
+
+.modal-content h6 {
+    color: darkgray;
+}
+
+.modal-content img {
+    width: 100%;
+}
+
+.modal.fade .modal-dialog {
+    -webkit-transform: unset;
+    -ms-transform: unset;
+    transform: unset;
+}
+
+.modal.in .modal-dialog {
+    -webkit-transform: unset;
+    -ms-transform: unset;
+    transform: unset;
+}
