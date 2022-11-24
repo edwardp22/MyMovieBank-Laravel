@@ -4,6 +4,10 @@
 <?php $activeLink = $movies['activeLink']; ?>
 
 @section('content')
+    @if (isset($movies['error']))
+    <h1>{{ $movies['error'] }}</h1>
+    @endif
+
     @foreach ($movies['list'] as $movie)
     <div class="col-12 col-md-4">
         <div 

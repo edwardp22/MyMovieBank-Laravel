@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use App\Models\Favorite;
+use App\Models\Wish;
 use App\Models\Comment;
 
 class Movies extends Controller {
@@ -32,6 +35,96 @@ class Movies extends Controller {
         $viewData = $this->getViewData('popular', 'MostPopularMovies');
 
         return view("pages.moviesList")->with('movies', $viewData);
+    }
+
+    // Show Favorite page
+    public function favorites() {
+        $viewData = array();
+        $viewData['activeLink'] = 'favorites';
+        $viewData['list'] = array();
+        $user = auth()->user();
+
+        if (isset($user)) {
+            $userId = $user->id;
+
+            $favorites = Favorite::where(
+                [
+                    ['userId', '=', $userId]
+                ]
+            )->get()->toArray();
+
+            if (sizeof($favorites) == 0) {
+                $viewData['error'] = 'Nothing in favorites';
+            }
+
+            try {
+                for ($i=0; $i < sizeof($favorites); $i++) { 
+                    $movie = Http::get('https://imdb-api.com/en/API/Title/k_3ia6todj/'.$favorites['imDbId'])->json();
+
+                    if (isset($movie['errorMessage'])) {
+                        $viewData['error'] = $movie['errorMessage'];
+                        break;
+                    }
+
+                    $viewData['list'][] = $movie;
+                }
+            } catch(ConnectionException $e)
+            {
+                $viewData['error'] = 'You are not connected to Internet';
+            }
+        }
+
+        return view("pages.moviesList")->with('movies', $viewData);
+    }
+
+    // Show Wish page
+    public function wishList() {
+        $viewData = array();
+        $viewData['activeLink'] = 'wishes';
+        $viewData['list'] = array();
+        $user = auth()->user();
+
+        if (isset($user)) {
+            $userId = $user->id;
+
+            $wishes = Wish::where(
+                [
+                    ['userId', '=', $userId]
+                ]
+            )->get()->toArray();
+
+            if (sizeof($wishes) == 0) {
+                $viewData['error'] = 'Nothing in wishes';
+            }
+
+            try {
+                for ($i=0; $i < sizeof($wishes); $i++) { 
+                    $movie = Http::get('https://imdb-api.com/en/API/Title/k_3ia6todj/'.$wishes['imDbId'])->json();
+
+                    if (isset($movie['errorMessage'])) {
+                        $viewData['error'] = $movie['errorMessage'];
+                        break;
+                    }
+
+                    $viewData['list'][] = $movie;
+                }
+            } catch(ConnectionException $e)
+            {
+                $viewData['error'] = 'You are not connected to Internet';
+            }
+        }
+
+        return view("pages.moviesList")->with('movies', $viewData);
+    }
+
+    // Show About page
+    public function about() {
+        return back();
+    }
+
+    // Show Contact page
+    public function contact() {
+        return back();
     }
 
     // Changes the state of favorite for the movie
@@ -67,32 +160,78 @@ class Movies extends Controller {
         return back();
     }
 
-    // Show information of the desired movie
-    public function showMovie($id) {
-        $viewData = Http::get('https://imdb-api.com/en/API/Title/k_3ia6todj/'.$id)->json();
-        
+    // Changes the state of wish list for the movie
+    public function toggleWishList($id) {
         $user = auth()->user();
 
         if (isset($user)) {
             $userId = $user->id;
-        
-            $response = Http::get('https://imdb-api.com/en/API/Reviews/k_3ia6todj/'.$id)->json();
-            $comments = $response["items"];
-            $DbComments = Comment::where(
+
+            $wish = Wish::where(
                 [
                     ['imDbId', '=', $id],
                     ['userId', '=', $userId]
                 ]
             )->get()->toArray();
-
-            for ($i=0; $i < sizeof($DbComments); $i++) {
-                $DbComments[$i]['isInternal'] = true; 
-                $viewData['comments'][] = $DbComments[$i];             
+    
+            if (sizeof($wish) > 0) {
+                Wish::where(
+                    [
+                        ['imDbId', '=', $id],
+                        ['userId', '=', $userId]
+                    ]
+                )->delete();
             }
-
-            for ($i=0; $i < sizeof($comments); $i++) {
-                $viewData['comments'][] = $comments[$i]; 
+            else {
+                $newWish = new Wish();
+                $newWish->userId = $userId;
+                $newWish->imDbId = $id;
+                $newWish->save();
             }
+        }        
+
+        return back();
+    }
+
+    // Show information of the desired movie
+    public function showMovie($id) {
+        $viewData = array();
+        $viewData['comments'] = array();
+
+        try {
+            $viewData = Http::get('https://imdb-api.com/en/API/Title/k_3ia6todj/'.$id)->json();
+
+            if (isset($viewData['errorMessage'])) {
+                $viewData['error'] = $viewData['errorMessage'];
+            }
+            else {            
+                $user = auth()->user();
+
+                if (isset($user)) {
+                    $userId = $user->id;
+                
+                    $response = Http::get('https://imdb-api.com/en/API/Reviews/k_3ia6todj/'.$id)->json();
+                    $comments = $response["items"];
+                    $DbComments = Comment::where(
+                        [
+                            ['imDbId', '=', $id],
+                            ['userId', '=', $userId]
+                        ]
+                    )->get()->toArray();
+
+                    for ($i=0; $i < sizeof($DbComments); $i++) {
+                        $DbComments[$i]['isInternal'] = true; 
+                        $viewData['comments'][] = $DbComments[$i];             
+                    }
+
+                    for ($i=0; $i < sizeof($comments); $i++) {
+                        $viewData['comments'][] = $comments[$i]; 
+                    }
+                }
+            }
+        } catch(ConnectionException $e)
+        {
+            $viewData['error'] = 'You are not connected to Internet';
         }
 
         return view("pages.movie")->with('movie', $viewData);
@@ -101,29 +240,41 @@ class Movies extends Controller {
     // Common utility function for all pages
     private function getViewData(string $activeLink, string $endPoint, int $numRecords = 0): array {
         $viewData = array();
+        $viewData['list'] = array();
         $viewData['activeLink'] = $activeLink;
-        $response = Http::get('https://imdb-api.com/en/API/'.$endPoint.'/k_3ia6todj')->json();
-        
-        if ($numRecords != 0) {
-            $viewData['list'] = array_slice($response['items'], 0, $numRecords);
-        }
-        else {
-            $viewData['list'] = $response['items'];
-        }
 
-        $favorites = Favorite::get()->toArray();
+        try {
+            $response = Http::get('https://imdb-api.com/en/API/'.$endPoint.'/k_3ia6todj')->json();
 
-        for ($i=0; $i < sizeof($viewData['list']); $i++) { 
-            $setFavorite = false;
+            if (isset($response['errorMessage'])) {
+                $viewData['error'] = $response['errorMessage'];
+            }
+            else {            
+                if ($numRecords != 0) {
+                    $viewData['list'] = array_slice($response['items'], 0, $numRecords);
+                }
+                else {
+                    $viewData['list'] = $response['items'];
+                }
 
-            foreach ($favorites as $favorite) {
-                if ($favorite['imDbId'] == $viewData['list'][$i]['id']) {
-                    $setFavorite = true;
-                    break;
+                $favorites = Favorite::get()->toArray();
+
+                for ($i=0; $i < sizeof($viewData['list']); $i++) { 
+                    $setFavorite = false;
+
+                    foreach ($favorites as $favorite) {
+                        if ($favorite['imDbId'] == $viewData['list'][$i]['id']) {
+                            $setFavorite = true;
+                            break;
+                        }
+                    }
+
+                    $viewData['list'][$i]['isFavorite'] = $setFavorite; 
                 }
             }
-
-            $viewData['list'][$i]['isFavorite'] = $setFavorite; 
+        } catch(ConnectionException $e)
+        {
+            $viewData['error'] = 'You are not connected to Internet';
         }
 
         return $viewData;

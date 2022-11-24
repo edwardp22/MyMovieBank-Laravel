@@ -51,17 +51,18 @@
       </header>
 
       <nav class="navBar" id="navigator">
-        <a href="/" <?php if ($activeLink == "index") echo 'class="active"'; ?>>Showing Now</a>
-        <a href="/coming" <?php if ($activeLink == "coming") echo 'class="active"'; ?>>Coming Soon</a>
-        <a href="/top" <?php if ($activeLink == "top") echo 'class="active"'; ?>>Top 10</a>
-        <a href="/popular" <?php if ($activeLink == "popular") echo 'class="active"'; ?>>Most Popular</a>
+        <a href="{{ route('movies.shownow') }}" <?php if ($activeLink == "index") echo 'class="active"'; ?>>Showing Now</a>
+        <a href="{{ route('movies.coming') }}" <?php if ($activeLink == "coming") echo 'class="active"'; ?>>Coming Soon</a>
+        <a href="{{ route('movies.top') }}" <?php if ($activeLink == "top") echo 'class="active"'; ?>>Top 10</a>
+        <a href="{{ route('movies.popular') }}" <?php if ($activeLink == "popular") echo 'class="active"'; ?>>Most Popular</a>
         
         @auth
-        <a href="/favorites" <?php if ($activeLink == "favorites") echo 'class="active"'; ?>>Favorites</a>
+        <a href="{{ route('favorite.show') }}" <?php if ($activeLink == "favorites") echo 'class="active"'; ?>>Favorites</a>
+        <a href="{{ route('wishlist.show') }}" <?php if ($activeLink == "wishes") echo 'class="active"'; ?>>Wish List</a>
         @endauth
 
-        <a href="/about" <?php if ($activeLink == "about") echo 'class="active"'; ?>>About Us</a>
-        <a href="/contact" <?php if ($activeLink == "contact") echo 'class="active"'; ?>>Contact Us</a>
+        <a href="{{ route('movies.about') }}" <?php if ($activeLink == "about") echo 'class="active"'; ?>>About Us</a>
+        <a href="{{ route('movies.contact') }}" <?php if ($activeLink == "contact") echo 'class="active"'; ?>>Contact Us</a>
 
         @guest
         <a href="{{ route('login') }}" class="active">Log In</a>
