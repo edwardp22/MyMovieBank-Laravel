@@ -48,11 +48,43 @@
             </div>
 
             @auth
+            <h5>Please leave your comment</h5>
+            <form method="POST" action="{{ route('comment.add', $movie['id']) }}">
+                @csrf
+
+                <select class="form-select" id="rate" name="rate" required>
+                    <option value="1">&#xf005;</option>
+                    <option value="2">&#xf005;&#xf005;</option>
+                    <option value="3">&#xf005;&#xf005;&#xf005;</option>
+                    <option value="4">&#xf005;&#xf005;&#xf005;&#xf005;</option>
+                    <option value="5" selected>&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+                </select>
+
+                <div>
+                    <label for="title">Title</label> 
+                </div>
+                <div>
+                    <input id="title" name="title" required>
+                </div>
+
+                <div>
+                    <label for="content">Comment</label> 
+                </div>
+                <div>
+                    <textarea id="content" name="content" rows="4" cols="50" required></textarea>
+                </div>
+
+                <input type="submit" value="Send Comment">
+            </form>
+
             @if (isset($movie['comments']))
             <div class="col-12">
                 <h1>Comments</h1>
                 @foreach ($movie['comments'] as $comment)            
-                <div class="comment mt-4 text-justify float-left">
+                <div class="comment mt-4 text-justify float-left commentBlock">
+                    <div><?php for ($i=0; $i < $comment['rate']; $i++) { 
+                        echo '<i class="fa-solid fa-star"></i>';
+                    } ?></div>
                     <h4>{{ $comment['username'] }}</h4>
 
                     <?php if (isset($comment['title'])) { ?>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use App\Models\Favorite;
@@ -247,6 +249,30 @@ class Movies extends Controller {
         }
 
         return view("pages.movie")->with('movie', $viewData);
+    }
+
+    // Captures the new comment of the user
+    public function addComment(Request $request, string $id) {
+        $user = auth()->user();
+        $formData = $request->all();
+
+        if (isset($user) && isset($formData['rate']) && isset($formData['title']) && isset($formData['content'])) {
+            $userId = $user->id;
+            $username = $user->name;
+            $formData = $request->all();
+
+            $newComment = new Comment();
+            $newComment->userId = $userId;
+            $newComment->imDbId = $id;
+            $newComment->username = $username;
+            $newComment->date = Carbon::now();
+            $newComment->rate = $formData['rate'];
+            $newComment->title = $formData['title'];
+            $newComment->content = $formData['content'];
+            $newComment->save();
+        }
+
+        return back();
     }
 
     // Common utility function for all pages

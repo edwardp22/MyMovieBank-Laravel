@@ -27,6 +27,7 @@
 
     <!-- My CSS styles -->
     <link href="{{asset('css/global.css')}}" rel="stylesheet" />
+    <link href="{{asset('css/comment.css')}}" rel="stylesheet" />
     <link href="{{asset('css/card.css')}}" rel="stylesheet" />
     <link href="{{asset('css/modal.css')}}" rel="stylesheet" />
 

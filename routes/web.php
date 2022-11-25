@@ -25,5 +25,6 @@ Route::get('/contact', 'App\Http\Controllers\Movies@contact')->name('movies.cont
 Route::get('/favorite/{id}/toggle', 'App\Http\Controllers\Movies@toggleFavorite')->name('favorite.toggle');
 Route::get('/wishlist/{id}/toggle', 'App\Http\Controllers\Movies@toggleWishList')->name('wishlist.toggle');
 Route::get('/movie/{id}/show', 'App\Http\Controllers\Movies@showMovie')->name('movie.show');
+Route::post('/comment/{id}/add', 'App\Http\Controllers\Movies@addComment')->name('comment.add');
 
 Auth::routes();
