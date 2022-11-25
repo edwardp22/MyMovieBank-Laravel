@@ -24,7 +24,12 @@ Route::get('/about', 'App\Http\Controllers\Movies@about')->name('movies.about');
 Route::get('/contact', 'App\Http\Controllers\Movies@contact')->name('movies.contact');
 Route::get('/favorite/{id}/toggle', 'App\Http\Controllers\Movies@toggleFavorite')->name('favorite.toggle');
 Route::get('/wishlist/{id}/toggle', 'App\Http\Controllers\Movies@toggleWishList')->name('wishlist.toggle');
+
 Route::get('/movie/{id}/show', 'App\Http\Controllers\Movies@showMovie')->name('movie.show');
+
 Route::post('/comment/{id}/add', 'App\Http\Controllers\Movies@addComment')->name('comment.add');
+Route::post('/comment/{id}/edit', 'App\Http\Controllers\Movies@editComment')->name('comment.edit');
+Route::get('/comment/{id}/delete', 'App\Http\Controllers\Movies@deleteComment')->name('comment.delete');
+Route::get('/comment/{id}/editor', 'App\Http\Controllers\Movies@editor')->name('comment.editor');
 
 Auth::routes();

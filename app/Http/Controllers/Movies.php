@@ -17,6 +17,7 @@ class Movies extends Controller {
     // Show Showing now page
     public function showingNow() {
         $viewData = $this->getViewData('index', 'InTheaters');
+        $viewData['title'] = 'Showing Now';
 
         return view("pages.moviesList")->with('movies', $viewData);
     }
@@ -24,6 +25,7 @@ class Movies extends Controller {
     // Show Coming page
     public function comingSoon() {
         $viewData = $this->getViewData('coming', 'ComingSoon');
+        $viewData['title'] = 'Coming Soon';
 
         return view("pages.moviesList")->with('movies', $viewData);
     }
@@ -31,6 +33,7 @@ class Movies extends Controller {
     // Show Top page
     public function top() {
         $viewData = $this->getViewData('top', 'Top250Movies', 10);
+        $viewData['title'] = 'Top 10';
 
         return view("pages.moviesList")->with('movies', $viewData);
     }
@@ -38,6 +41,7 @@ class Movies extends Controller {
     // Show Popular page
     public function popular() {
         $viewData = $this->getViewData('popular', 'MostPopularMovies');
+        $viewData['title'] = 'Popular';
 
         return view("pages.moviesList")->with('movies', $viewData);
     }
@@ -46,6 +50,7 @@ class Movies extends Controller {
     public function favorites() {
         $viewData = array();
         $viewData['activeLink'] = 'favorites';
+        $viewData['title'] = 'My Favorites';
         $viewData['list'] = array();
         $user = auth()->user();
 
@@ -90,6 +95,7 @@ class Movies extends Controller {
     public function wishList() {
         $viewData = array();
         $viewData['activeLink'] = 'wishes';
+        $viewData['title'] = 'My Wish List';
         $viewData['list'] = array();
         $user = auth()->user();
 
@@ -259,7 +265,6 @@ class Movies extends Controller {
         if (isset($user) && isset($formData['rate']) && isset($formData['title']) && isset($formData['content'])) {
             $userId = $user->id;
             $username = $user->name;
-            $formData = $request->all();
 
             $newComment = new Comment();
             $newComment->userId = $userId;
@@ -273,6 +278,71 @@ class Movies extends Controller {
         }
 
         return back();
+    }
+
+    // Edits one comment
+    public function editComment(Request $request, string $id) {
+        $user = auth()->user();
+        $formData = $request->all();
+
+        if (isset($user) && isset($formData['rate']) && isset($formData['title']) && isset($formData['content'])) {
+            $userId = $user->id;
+
+            $comments = Comment::where(
+                [
+                    ['commentId', '=', $id],
+                    ['userId', '=', $userId]
+                ]
+            )->get()->toArray();
+
+            for ($i=0; $i < sizeof($comments); $i++) {
+                $comments[$i]['rate'] = $formData['rate'];
+                $comments[$i]['title'] = $formData['title'];
+                $comments[$i]['content'] = $formData['content'];
+                // TODO: throw error
+                $comments[$i]->save();
+            }
+        }
+
+        return back();
+    }
+
+    // Deletes one comment
+    public function deleteComment(string $id) {
+        $user = auth()->user();
+
+        if (isset($user)) {
+            $userId = $user->id;
+
+            Comment::where(
+                [
+                    ['imDbId', '=', $id],
+                    ['userId', '=', $userId]
+                ]
+            )->delete();
+        }
+
+        return back();
+    }
+
+    // Open the editor
+    public function editor(string $id) {
+        $user = auth()->user();
+
+        if (isset($user)) {
+            $userId = $user->id;
+
+            $comments = Comment::where(
+                [
+                    ['imDbId', '=', $id],
+                    ['userId', '=', $userId]
+                ]
+            )->get()->toArray();
+
+            $viewData = $comments[0];
+        }
+
+        return view('pages.editor')->with('viewData', $viewData);
     }
 
     // Common utility function for all pages

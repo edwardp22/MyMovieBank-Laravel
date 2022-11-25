@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'Showing Now')
+@section('title', 'Movie')
 
 <?php $activeLink = ""; ?>
 
@@ -94,6 +94,13 @@
                     <span>- {{ $comment['date'] }}</span>
                     <br>
                     <p>{{ $comment['content'] }}</p>
+
+                    @if ($comment['isInternal'])
+                    <div>
+                        <a class="btn btn-primary" href="{{ route('comment.editor', $comment['imDbId']) }}">Edit my comment</a>
+                        <a class="btn btn-danger" href="{{ route('comment.delete', $comment['imDbId']) }}">Delete my comment</a>
+                    </div>
+                    @endif
                 </div>
                 @endforeach
             </div>

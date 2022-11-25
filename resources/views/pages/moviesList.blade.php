@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'Showing Now')
+@section('title', $movies['title'])
 
 <?php $activeLink = $movies['activeLink']; ?>
 
