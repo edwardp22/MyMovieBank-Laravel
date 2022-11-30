@@ -288,20 +288,16 @@ class Movies extends Controller {
         if (isset($user) && isset($formData['rate']) && isset($formData['title']) && isset($formData['content'])) {
             $userId = $user->id;
 
-            $comments = Comment::where(
+            Comment::where(
                 [
                     ['commentId', '=', $id],
                     ['userId', '=', $userId]
                 ]
-            )->get()->toArray();
-
-            for ($i=0; $i < sizeof($comments); $i++) {
-                $comments[$i]['rate'] = $formData['rate'];
-                $comments[$i]['title'] = $formData['title'];
-                $comments[$i]['content'] = $formData['content'];
-                // TODO: throw error
-                $comments[$i]->save();
-            }
+            )->update([
+                "rate" => $formData['rate'],
+                "title" => $formData['title'],
+                "content" => $formData['content'],
+            ]);
         }
 
         return back();
@@ -316,7 +312,7 @@ class Movies extends Controller {
 
             Comment::where(
                 [
-                    ['imDbId', '=', $id],
+                    ['commentId', '=', $id],
                     ['userId', '=', $userId]
                 ]
             )->delete();
@@ -334,7 +330,7 @@ class Movies extends Controller {
 
             $comments = Comment::where(
                 [
-                    ['imDbId', '=', $id],
+                    ['commentId', '=', $id],
                     ['userId', '=', $userId]
                 ]
             )->get()->toArray();

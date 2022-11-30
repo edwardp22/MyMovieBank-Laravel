@@ -97,8 +97,8 @@
 
                     @if ($comment['isInternal'])
                     <div>
-                        <a class="btn btn-primary" href="{{ route('comment.editor', $comment['imDbId']) }}">Edit my comment</a>
-                        <a class="btn btn-danger" href="{{ route('comment.delete', $comment['imDbId']) }}">Delete my comment</a>
+                        <a class="btn btn-primary" href="{{ route('comment.editor', $comment['commentId']) }}">Edit my comment</a>
+                        <a class="btn btn-danger" href="{{ route('comment.delete', $comment['commentId']) }}">Delete my comment</a>
                     </div>
                     @endif
                 </div>

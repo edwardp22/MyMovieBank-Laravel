@@ -32,6 +32,7 @@
                 ></i>
             </a>
             
+            @if ($movies['activeLink'] == 'coming')
             <a
                 class="starLink" 
                 href="{{ route('wishlist.toggle', $movie['id']) }}"
@@ -44,6 +45,7 @@
                     id="{{ 'bookmark'.$movie['id'] }}"
                 ></i>
             </a>
+            @endif
             @endauth
 
             <img 
