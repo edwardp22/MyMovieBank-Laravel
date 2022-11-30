@@ -8,50 +8,74 @@
 <h5>Any doubt, comment or share your experience</h5>
 
 <form action="send-mail.php">
-    <label for="fname">First Name*</label>
-    <input
-    type="text"
-    id="fname"
-    name="firstname"
-    placeholder="Your name"
-    required
-    />
+    <table>
+        <tbody>
+            <tr>
+                <td><label for="fname">First Name*</label></td>
+                <td>
+                    <input
+                        type="text"
+                        id="fname"
+                        name="firstname"
+                        placeholder="Your name"
+                        required
+                    />
+                </td>
+            </tr>
 
-    <label for="mail">E-Mail*</label>
-    <input
-    type="email"
-    id="mail"
-    name="custEmail"
-    placeholder="Your email"
-    required
-    />
+            <tr>
+                <td><label for="mail">E-Mail*</label></td>
+                <td>
+                    <input
+                        type="email"
+                        id="mail"
+                        name="custEmail"
+                        placeholder="Your email"
+                        required
+                    />
+                </td>
+            </tr>
 
-    <label for="phone">Phone number</label>
-    <input
-    type="tel"
-    id="phone"
-    name="phone"
-    placeholder="(nnn) nnn-nnnn"
-    pattern="^\d{10}$|^(\(\d{3}\)\s*)?\d{3}[\s-]?\d{4}$"
-    />
+            <tr>
+                <td><label for="phone">Phone number</label></td>
+                <td>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="(nnn) nnn-nnnn"
+                        pattern="^\d{10}$|^(\(\d{3}\)\s*)?\d{3}[\s-]?\d{4}$"
+                    />
+                </td>
+            </tr>
 
-    <label for="reason">Subject</label>
-    <select name="reasonType" id="reason">
-    <option value="reason1">Nice page</option>
-    <option value="reason2">Add more features</option>
-    <option value="reason3">Networking</option>
-    <option value="reason4">Design improvement</option>
-    </select>
+            <tr>
+                <td><label for="reason">Subject</label></td>
+                <td>
+                    <select name="reasonType" id="reason">
+                        <option value="reason1">Nice page</option>
+                        <option value="reason2">Add more features</option>
+                        <option value="reason3">Networking</option>
+                        <option value="reason4">Design improvement</option>
+                    </select>
+                </td>
+            </tr>
 
-    <label for="reason">Comment</label>
-    <textarea
-    id="comment"
-    name="comment"
-    placeholder="Elaborate your message please"
-    style="height: 200px"
-    ></textarea>
+            <tr>
+                <td><label for="reason">Comment</label></td>
+                <td>
+                    <textarea
+                        id="comment"
+                        name="comment"
+                        placeholder="Elaborate your message please"
+                        style="height: 200px"
+                    ></textarea>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
     <input type="reset" value="Cancel" />
-    <input type="submit" value="Submit" />
+    <input type="submit" value="Reset Form" />
 </form>
 @endsection
