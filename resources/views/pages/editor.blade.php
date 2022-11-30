@@ -32,7 +32,13 @@
         </div>
 
         <input type="submit" class="btn btn-primary" value="Edit Comment">
-        <input class="btn btn-default" value="Cancel">
+        <a class="btn btn-secondary" href="{{ route('movie.show', $viewData['imDbId']) }}">Cancel</a>
+        
+        @if (session()->get('message'))
+        <div class="alert alert-success" role="alert">
+            <strong>Success: </strong>{{ session()->get('message') }}
+        </div>
+        @endif
     </form>
     @endauth
 @endsection

@@ -32,4 +32,7 @@ Route::post('/comment/{id}/edit', 'App\Http\Controllers\Movies@editComment')->na
 Route::get('/comment/{id}/delete', 'App\Http\Controllers\Movies@deleteComment')->name('comment.delete');
 Route::get('/comment/{id}/editor', 'App\Http\Controllers\Movies@editor')->name('comment.editor');
 
+Route::get('/profile', 'App\Http\Controllers\Movies@profile')->name('user.profile');
+Route::post('/profile/update', 'App\Http\Controllers\Movies@profileUpdate')->name('user.update');
+
 Auth::routes();
