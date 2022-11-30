@@ -7,7 +7,7 @@
 <h2>Contact Us</h2>
 <h5>Any doubt, comment or share your experience</h5>
 
-<form action="send-mail.php">
+<form>
     <table>
         <tbody>
             <tr>
@@ -75,7 +75,7 @@
         </tbody>
     </table>
 
-    <input type="reset" value="Cancel" />
-    <input type="submit" value="Reset Form" />
+    <input type="reset" value="Reset Form" />
+    <input type="submit" value="Send" />
 </form>
 @endsection
