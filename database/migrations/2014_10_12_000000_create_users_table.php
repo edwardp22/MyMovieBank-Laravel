@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -22,6 +23,10 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        DB::table('users')->insert([
+            ['name' => 'test', 'email' => '$10$rQgkEyPzDijWCT/WQE9bQedQaqDjGX6ZZ0If02hAgXU0rBiHWIrJq', 'created_at' => '2022-11-24 17:40:05', 'updated_at' => '2022-11-30 19:18:41'],
+        ]);
     }
 
     /**
