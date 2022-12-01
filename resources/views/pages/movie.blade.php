@@ -96,7 +96,8 @@
             @if (isset($movie['comments']))
             <div class="col-12">
                 <h1>Comments</h1>
-                @foreach ($movie['comments'] as $comment)            
+                @foreach ($movie['comments'] as $comment)       
+                @if ($comment['isRejected'] == 0)     
                 <div class="comment mt-4 text-justify float-left commentBlock">
                     <div><?php for ($i=0; $i < $comment['rate']; $i++) { 
                         echo '<i class="fa-solid fa-star"></i>';
@@ -118,6 +119,7 @@
                     </div>
                     @endif
                 </div>
+                @endif
                 @endforeach
             </div>
             @endif

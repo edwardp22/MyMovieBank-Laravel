@@ -74,6 +74,9 @@
         </a>
 
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            @if (Auth::user()->isAdmin == 1)
+            <a class="dropdown-item" href="{{ route('admin.controlpanel') }}">Control Panel</a>
+            @endif
             <a class="dropdown-item" href="{{ route('user.profile') }}">Profile</a>
             <a class="dropdown-item" href="{{ route('logout') }}"
                 onclick="event.preventDefault();

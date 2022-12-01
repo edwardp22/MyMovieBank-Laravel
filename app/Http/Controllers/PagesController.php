@@ -10,8 +10,8 @@ use App\Models\Comment;
 use App\Models\Note;
 
 class PagesController extends Controller {
-    private static string $apiKey = 'k_3ia6todj';
-    // private static string $apiKey = 'k_145rs2xn';
+    // private static string $apiKey = 'k_3ia6todj';
+    private static string $apiKey = 'k_145rs2xn';
 
     // Show Showing now page
     public function showingNow() {
@@ -106,6 +106,7 @@ class PagesController extends Controller {
 
                     for ($i=0; $i < sizeof($comments); $i++) {
                         $comments[$i]['isInternal'] = false;
+                        $comments[$i]['isRejected'] = 0;
                         $viewData['comments'][] = $comments[$i]; 
                     }
                 }

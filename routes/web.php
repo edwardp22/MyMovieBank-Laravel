@@ -45,4 +45,8 @@ Route::post('/profile/update', 'App\Http\Controllers\UsersController@profileUpda
 // Notes: Create and Update, Read in movie.show
 Route::post('/note/{id}/add', 'App\Http\Controllers\NotesController@addNote')->name('note.add');
 
+// Admin
+Route::get('/admin/panel', 'App\Http\Controllers\AdminController@controlPanel')->name('admin.controlpanel');
+Route::get('/admin/panel/{id}/toggle', 'App\Http\Controllers\AdminController@toggleComment')->name('admin.toggle');
+
 Auth::routes();

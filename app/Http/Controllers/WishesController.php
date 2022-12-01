@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Wish;
 
 class WishesController extends Controller {
-    private static string $apiKey = 'k_3ia6todj';
-    // private static string $apiKey = 'k_145rs2xn';
+    // private static string $apiKey = 'k_3ia6todj';
+    private static string $apiKey = 'k_145rs2xn';
 
     // Show Wish page
     public function show() {

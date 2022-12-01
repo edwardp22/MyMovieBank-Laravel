@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Favorite;
 
 class FavoritesController extends Controller {
-    private static string $apiKey = 'k_3ia6todj';
-    // private static string $apiKey = 'k_145rs2xn';
+    // private static string $apiKey = 'k_3ia6todj';
+    private static string $apiKey = 'k_145rs2xn';
 
     // Show Favorite page
     public function show() {
