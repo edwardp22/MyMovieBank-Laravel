@@ -45,6 +45,22 @@
                         Your browser does not support the video tag.
                     </video>
                 <?php } ?>
+
+                <form method="POST" action="{{ route('note.add', $movie['id']) }}">
+                @csrf
+                    <div>
+                        <label for="note">Personal Notes</label> 
+                    </div>
+                    <div>
+                        <textarea id="note" name="note" rows="4" cols="50" required>{{ $movie['note'] }}</textarea>
+                    </div>
+                    <input type="submit" value="Save Note">
+                    @if (session()->get('message'))
+                    <div class="alert alert-success" role="alert">
+                        <strong>Success: </strong>{{ session()->get('message') }}
+                    </div>
+                    @endif
+                </form>
             </div>
 
             @auth

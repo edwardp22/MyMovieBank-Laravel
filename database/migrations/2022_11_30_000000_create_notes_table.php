@@ -14,17 +14,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('wishes', function (Blueprint $table) {
-            $table->id('wishId');
+        Schema::create('notes', function (Blueprint $table) {
+            $table->id('noteId');
             $table->integer('userId');
             $table->char('imDbId',20);
+            $table->string('note',8000);
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('created_at')->nullable();
         });
 
-        DB::table('wishes')->insert([
-            ['userId' => '2', 'imDbId' => 'tt12003946', 'created_at' => '2022-11-30 18:41:36', 'updated_at' => '2022-11-30 18:41:36'],
-            ['userId' => '2', 'imDbId' => 'tt12530246', 'created_at' => '2022-11-30 18:41:36', 'updated_at' => '2022-11-30 18:41:36'],
+        DB::table('notes')->insert([
+            ['userId' => '1', 'imDbId' => 'tt9114286', 'note' => 'I have to watch this next week.', 'created_at' => '2022-11-24 19:54:44', 'updated_at' => '2022-11-24 19:54:44'],
         ]);
     }
 
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wishes');
+        Schema::dropIfExists('notes');
     }
 };

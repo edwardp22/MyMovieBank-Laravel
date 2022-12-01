@@ -32,7 +32,7 @@
                 ></i>
             </a>
             
-            @if ($movies['activeLink'] == 'coming')
+            @if ($movies['activeLink'] == 'coming' || $movies['activeLink'] == 'wishes')
             <a
                 class="starLink" 
                 href="{{ route('wishlist.toggle', $movie['id']) }}"
@@ -75,6 +75,24 @@
                 <?php if (isset($movie['plot'])) { ?>
                 <p class="card-text">{{ $movie['plot'] }}</p>
                 <?php } ?>
+
+                @if ($movies['activeLink'] == 'favorites')
+                <form method="POST" action="{{ route('favorite.edit', $movie['id']) }}">
+                @csrf
+                    <div>
+                        <label for="note">Favorite Notes</label> 
+                    </div>
+                    <div>
+                        <textarea id="note" name="note" rows="4" cols="40" required>{{ $movie['note'] }}</textarea>
+                    </div>
+                    <input type="submit" value="Save Note">
+                    @if (session()->get('message'))
+                    <div class="alert alert-success" role="alert">
+                        <strong>Success: </strong>{{ session()->get('message') }}
+                    </div>
+                    @endif
+                </form>
+                @endif
             </div>                  
         </div>
     </div>

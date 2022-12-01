@@ -25,7 +25,8 @@ return new class extends Migration
         });
 
         DB::table('users')->insert([
-            ['name' => 'test', 'email' => '$10$rQgkEyPzDijWCT/WQE9bQedQaqDjGX6ZZ0If02hAgXU0rBiHWIrJq', 'created_at' => '2022-11-24 17:40:05', 'updated_at' => '2022-11-30 19:18:41'],
+            ['name' => 'Edward', 'email' => 'edwardp22@hotmail.com', 'password' => '$10$rQgkEyPzDijWCT/WQE9bQedQaqDjGX6ZZ0If02hAgXU0rBiHWIrJq', 'created_at' => '2022-11-24 17:40:05', 'updated_at' => '2022-11-30 19:18:41'],
+            ['name' => 'test', 'email' => 'test@test.com', 'password' => '$10$rQgkEyPzDijWCT/WQE9bQedQaqDjGX6ZZ0If02hAgXU0rBiHWIrJq', 'created_at' => '2022-11-24 17:40:05', 'updated_at' => '2022-11-30 19:18:41'],
         ]);
     }
 
