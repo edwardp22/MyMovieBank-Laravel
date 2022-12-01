@@ -46,6 +46,7 @@
                     </video>
                 <?php } ?>
 
+                @auth
                 <form method="POST" action="{{ route('note.add', $movie['id']) }}">
                 @csrf
                     <div>
@@ -61,6 +62,7 @@
                     </div>
                     @endif
                 </form>
+                @endauth
             </div>
 
             @auth
