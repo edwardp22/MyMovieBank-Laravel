@@ -9,15 +9,20 @@
     @else
         <div class="row">
             <div class="col-12 col-md-4">
+                @if (isset($movie['image']))
                 <img 
                     class="img-fluid"
                     src="{{ $movie['image'] }}"  
                     alt="" loading="lazy"
                 />
+                @endif
             </div>
 
             <div class="col-12 col-md-8">
+                @if (isset($movie['image']))
                 <h2>{{ $movie['fullTitle'] }}</h2>
+                @endif
+
                 <h6>
                     <?php if (isset($movie['releaseDate'])) echo 'Realease Date: '.$movie['releaseDate']; ?>
                     <?php if (isset($movie['contentRating'])) { ?>
@@ -75,7 +80,12 @@
                     <option value="2">&#xf005;&#xf005;</option>
                     <option value="3">&#xf005;&#xf005;&#xf005;</option>
                     <option value="4">&#xf005;&#xf005;&#xf005;&#xf005;</option>
-                    <option value="5" selected>&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+                    <option value="5">&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+                    <option value="6">&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+                    <option value="7">&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+                    <option value="8">&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+                    <option value="9">&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+                    <option value="10" selected>&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
                 </select>
 
                 <div>

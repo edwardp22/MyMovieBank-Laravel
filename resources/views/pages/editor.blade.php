@@ -15,6 +15,11 @@
             <option value="3" <?php if ($viewData['rate'] == 3) echo 'selected'; ?>>&#xf005;&#xf005;&#xf005;</option>
             <option value="4" <?php if ($viewData['rate'] == 4) echo 'selected'; ?>>&#xf005;&#xf005;&#xf005;&#xf005;</option>
             <option value="5" <?php if ($viewData['rate'] == 5) echo 'selected'; ?>>&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+            <option value="6" <?php if ($viewData['rate'] == 6) echo 'selected'; ?>>&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+            <option value="7" <?php if ($viewData['rate'] == 7) echo 'selected'; ?>>&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+            <option value="8" <?php if ($viewData['rate'] == 8) echo 'selected'; ?>>&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+            <option value="9" <?php if ($viewData['rate'] == 9) echo 'selected'; ?>>&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
+            <option value="10" <?php if ($viewData['rate'] == 10) echo 'selected'; ?>>&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;&#xf005;</option>
         </select>
 
         <div>
